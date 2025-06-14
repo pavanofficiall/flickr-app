@@ -1,11 +1,11 @@
-// src/screens/HomeScreen.js
+// app/index.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, RefreshControl } from 'react-native';
+import { View, FlatList, Image, RefreshControl } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
-import { fetchFlickrImages } from '../utils/api';
-import { storeImageUrls, getCachedImageUrls } from '../utils/storage';
+import { fetchFlickrImages } from './utils/api';
+import { storeImageUrls, getCachedImageUrls } from './utils/storage';
 
-export default function HomeScreen() {
+export default function Home() {
   const [images, setImages] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -17,7 +17,6 @@ export default function HomeScreen() {
     } else {
       const latest = await fetchFlickrImages();
       const cached = await getCachedImageUrls();
-
       if (JSON.stringify(latest) !== JSON.stringify(cached)) {
         setImages(latest);
         await storeImageUrls(latest);
