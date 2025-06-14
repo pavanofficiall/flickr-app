@@ -1,4 +1,3 @@
-// app/index.js
 import React, { useEffect, useState } from 'react';
 import { View, FlatList, Image, RefreshControl } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';

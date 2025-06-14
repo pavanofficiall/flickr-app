@@ -1,50 +1,100 @@
-# Welcome to your Expo app 👋
+# 📷 Flickr Image Gallery App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a mobile image gallery app built using **React Native** with **Expo Router**, which fetches recent images from Flickr and supports offline caching. Users can view a drawer-based navigation and see the last viewed images even when offline — similar to Instagram's offline-first behavior.
 
-## Get started
+---
 
-1. Install dependencies
+## 🚀 Features
 
-   ```bash
-   npm install
-   ```
+- 🖼️ Displays recent photos using [Flickr API](https://www.flickr.com/services/api/)
+- 📦 Offline support via AsyncStorage
+- 🧠 Smart caching: refreshes only when the API data changes
+- 📱 Designed for iOS with Expo
+- 📂 Drawer navigation using Expo Router
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 🔧 Tech Stack
 
-In the output, you'll find options to open the app in a
+- React Native (Expo)
+- Expo Router
+- AsyncStorage
+- NetInfo (network detection)
+- Flickr API (`flickr.photos.getRecent`)
+- FlatList for image grid
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 📂 Folder Structure
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+project-root/
+├── app/
+│   ├── index.js              # Home screen (Image gallery)
+│   └── _layout.js            # Drawer layout (navigation)
+├── components/
+│   └── ImageGrid.js          # Reusable image grid component
+├── utils/
+│   ├── api.js                # Flickr API logic
+│   └── storage.js            # AsyncStorage caching logic
+└── README.md
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 📸 API Reference
 
-To learn more about developing your project with Expo, look at the following resources:
+**Flickr API**:
+```
+https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&per_page=20&page=1&api_key=YOUR_API_KEY&format=json&nojsoncallback=1&extras=url_s
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 🧪 How Caching Works
 
-Join our community of developers creating universal apps.
+- On app launch:
+  - If **offline**, loads image URLs from AsyncStorage
+  - If **online**, fetches from Flickr and checks if data is different
+    - If yes, updates AsyncStorage
+    - If no, loads from cache
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## 🛠 Setup
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/your-username/flickr-gallery.git
+cd flickr-gallery
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the app on iOS
+npx expo start --ios
+```
+
+---
+
+## 📼 Submission Instructions
+
+As part of the task, record a 1-minute video showing:
+- Images loading
+- Drawer working
+- Reload when offline (with cached images)
+
+Only send the GitHub repo if asked.
+
+---
+
+## 📄 License
+
+MIT License – Free to use and modify.
+
+---
+
+## 🤝 Credits
+
+Built with ❤️ by [Your Name]  
+Flickr API courtesy of Yahoo!
