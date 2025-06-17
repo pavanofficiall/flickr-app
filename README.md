@@ -1,68 +1,38 @@
-# 📷 Flickr Image Gallery App
+# 📸 Flickr Image Gallery App
 
-This is a mobile image gallery app built using **React Native** with **Expo Router**, which fetches recent images from Flickr and supports offline caching. Users can view a drawer-based navigation and see the last viewed images even when offline — similar to Instagram's offline-first behavior.
-
----
+A React Native mobile app built with Expo that displays recent images from Flickr. Users can also search for images by keyword (like cat, dog, etc.) and enjoy offline caching.
 
 ## 🚀 Features
 
-- 🖼️ Displays recent photos using [Flickr API](https://www.flickr.com/services/api/)
-- 📦 Offline support via AsyncStorage
-- 🧠 Smart caching: refreshes only when the API data changes
-- 📱 Designed for iOS with Expo
-- 📂 Drawer navigation using Expo Router
+- **Home Page**: Displays recent images from Flickr (with pagination).
+- **Drawer Navigation**: Navigate between Home and Search screens.
+- **Search Screen**: Search images by keyword with pagination.
+- **Offline Support**: Caches images locally for offline viewing.
+- **Pull to Refresh**: Refresh recent photos manually.
+- **Pagination Loader**: Shows a loader when loading additional images.
+- **Snackbar**: Shows retry message on network failure.
 
----
-
-## 🔧 Tech Stack
-
+## 🛠️ Tech Stack
 - React Native (Expo)
-- Expo Router
-- AsyncStorage
-- NetInfo (network detection)
-- Flickr API (`flickr.photos.getRecent`)
-- FlatList for image grid
+- Async Storage (for caching)
+- react-navigation (Drawer navigation)
+- react-native-paper (for Snackbar UI)
+- Flickr API
 
----
-
-## 📂 Folder Structure
-
+## 📦 Folder Structure
 ```
 project-root/
 ├── app/
-│   ├── index.js              # Home screen (Image gallery)
-│   └── _layout.js            # Drawer layout (navigation)
-├── components/
-│   └── ImageGrid.js          # Reusable image grid component
-├── utils/
-│   ├── api.js                # Flickr API logic
-│   └── storage.js            # AsyncStorage caching logic
-└── README.md
+    ├── utils/
+         ├── api.js
+         ├── storage.js
+    ├── _layout.js
+    ├── index.js
+    ├── search.js
+
 ```
 
----
-
-## 📸 API Reference
-
-**Flickr API**:
-```
-https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&per_page=20&page=1&api_key=YOUR_API_KEY&format=json&nojsoncallback=1&extras=url_s
-```
-
----
-
-## 🧪 How Caching Works
-
-- On app launch:
-  - If **offline**, loads image URLs from AsyncStorage
-  - If **online**, fetches from Flickr and checks if data is different
-    - If yes, updates AsyncStorage
-    - If no, loads from cache
-
----
-
-## 🛠 Setup
-
+## 📲 Run the App
 ```bash
 # 1. Clone the repo
 git clone https://github.com/your-username/flickr-gallery.git
@@ -75,18 +45,11 @@ npm install
 npx expo start --ios
 ```
 
----
-
-## 📼 Submission Instructions
-
-As part of the task, record a 1-minute video showing:
-- Images loading
-- Drawer working
-- Reload when offline (with cached images)
-
-Only send the GitHub repo if asked.
-
----
+## 🔑 API Used
+- **Recent Images API:**
+  `https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&...`
+- **Search API:**
+  `https://api.flickr.com/services/rest/?method=flickr.photos.search&text=cat&...`
 
 ## 📄 License
 
@@ -96,5 +59,4 @@ MIT License – Free to use and modify.
 
 ## 🤝 Credits
 
-Built with ❤️ by [Your Name]  
-Flickr API courtesy of Yahoo!
+Built with ❤️ by Pavan Babar

@@ -1,27 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList, Image, RefreshControl } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
+import {
+  View,
+  FlatList,
+  Image,
+  RefreshControl,
+  ActivityIndicator,
+} from 'react-native';
 import { fetchFlickrImages } from './utils/api';
-import { storeImageUrls, getCachedImageUrls } from './utils/storage';
 
-export default function Home() {
+export default function HomeScreen() {
   const [images, setImages] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const loadImages = async () => {
-    const isConnected = (await NetInfo.fetch()).isConnected;
-    if (!isConnected) {
-      const cached = await getCachedImageUrls();
-      if (cached) setImages(cached);
-    } else {
-      const latest = await fetchFlickrImages();
-      const cached = await getCachedImageUrls();
-      if (JSON.stringify(latest) !== JSON.stringify(cached)) {
-        setImages(latest);
-        await storeImageUrls(latest);
-      } else {
-        setImages(cached);
-      }
+    try {
+      setLoading(true);
+      const newImages = await fetchFlickrImages(1);
+      setImages(newImages);
+      setPage(2); // next page
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadMoreImages = async () => {
+    if (loadingMore) return;
+    setLoadingMore(true);
+    try {
+      const newImages = await fetchFlickrImages(page);
+      setImages(prev => [...prev, ...newImages]);
+      setPage(prev => prev + 1);
+    } catch (err) {
+      console.log('Pagination error:', err);
+    } finally {
+      setLoadingMore(false);
     }
   };
 
@@ -34,9 +50,15 @@ export default function Home() {
       data={images}
       numColumns={2}
       keyExtractor={(item, index) => index.toString()}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={loadImages} />}
+      onEndReached={loadMoreImages}
+      onEndReachedThreshold={0.5}
+      refreshControl={<RefreshControl refreshing={loading} onRefresh={loadImages} />}
+      ListFooterComponent={loadingMore ? <ActivityIndicator size="large" /> : null}
       renderItem={({ item }) => (
-        <Image source={{ uri: item }} style={{ width: '48%', height: 150, margin: '1%' }} />
+        <Image
+          source={{ uri: item }}
+          style={{ width: '48%', height: 150, margin: '1%' }}
+        />
       )}
     />
   );
